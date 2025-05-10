@@ -25,37 +25,6 @@
     let poiName = 'GoogleMaps_Image';
     let previewPanelElement;
 	
-	const SCRIPT_VERSION = `${GM_info.script.version}`;
-    //const SCRIPT_NAME = GM_info.script.name;
-	const GF_LINK = 'https://github.com/kid4rm90s/GMaps-POI-Photo-Downloader/blob/master/GMaps-POI-Photo-Downloader.user.js';
-    const DOWNLOAD_URL = 'https://github.com/kid4rm90s/GMaps-POI-Photo-Downloader/blob/master/GMaps-POI-Photo-Downloader.user.js';
-    //var totalActions = 0;
-    var _settings;
-    const updateMessage = "Minor changes:<br><br>Now it is able to alert the distance when the segment is shifted.<br><br>Thanks for the update!";
-
-    function bootstrap(tries = 1) {
-
-		if (WazeWrap.Ready){	
-            startScriptUpdateMonitor();
-            init();
-        }
-        else if (tries < 1000)
-            setTimeout(function () {bootstrap(++tries);}, 200);
-    }
-
-    bootstrap();
-
-	function startScriptUpdateMonitor() {
-		let updateMonitor;
-		try {
-			updateMonitor = new WazeWrap.Alerts.ScriptUpdateMonitor(GM_info.script.name, GM_info.script.version, DOWNLOAD_URL, GM_xmlhttpRequest, DOWNLOAD_URL);
-			updateMonitor.start();
-		} catch (ex) {
-			// Report, but don't stop if ScriptUpdateMonitor fails.
-			console.error('GMapsPOI:', ex);
-		}
-	}
-
     GM_addStyle(`
         #poiPhotoDownloaderPanel { /* Main control panel (top-right) */
             position: fixed; top: 70px; right: 10px; background-color: #f9f9f9;
