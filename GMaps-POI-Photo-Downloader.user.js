@@ -11,6 +11,7 @@
 // @grant        GM_addStyle
 // @grant        GM_setValue
 // @grant        GM_getValue
+// @grant        GM_xmlhttpRequest
 // @require      https://greasyfork.org/scripts/24851-wazewrap/code/WazeWrap.js
 // @license      MIT
 // @downloadURL  https://raw.githubusercontent.com/kid4rm90s/GMaps-POI-Photo-Downloader/main/GMaps-POI-Photo-Downloader.user.js
@@ -24,10 +25,36 @@
     let poiName = 'GoogleMaps_Image';
     let previewPanelElement;
 	
-  const updateMessage = 'Added \'Support for WME Edit Profile Enhancement\'<br>Fixed<br>- Various other bugs.<br>';
-  const scriptName = GM_info.script.name;
-  const scriptVersion = GM_info.script.version;
-  const downloadUrl = 'https://raw.githubusercontent.com/kid4rm90s/GMaps-POI-Photo-Downloader/main/GMaps-POI-Photo-Downloader.user.js';
+	const SCRIPT_VERSION = `${GM_info.script.version}`;
+    //const SCRIPT_NAME = GM_info.script.name;
+	const GF_LINK = 'https://github.com/kid4rm90s/GMaps-POI-Photo-Downloader/blob/master/GMaps-POI-Photo-Downloader.user.js';
+    const DOWNLOAD_URL = 'https://github.com/kid4rm90s/GMaps-POI-Photo-Downloader/blob/master/GMaps-POI-Photo-Downloader.user.js';
+    //var totalActions = 0;
+    var _settings;
+    const updateMessage = "Minor changes:<br><br>Now it is able to alert the distance when the segment is shifted.<br><br>Thanks for the update!";
+
+    function bootstrap(tries = 1) {
+
+		if (WazeWrap.Ready){	
+            startScriptUpdateMonitor();
+            init();
+        }
+        else if (tries < 1000)
+            setTimeout(function () {bootstrap(++tries);}, 200);
+    }
+
+    bootstrap();
+
+	function startScriptUpdateMonitor() {
+		let updateMonitor;
+		try {
+			updateMonitor = new WazeWrap.Alerts.ScriptUpdateMonitor(GM_info.script.name, GM_info.script.version, DOWNLOAD_URL, GM_xmlhttpRequest, DOWNLOAD_URL);
+			updateMonitor.start();
+		} catch (ex) {
+			// Report, but don't stop if ScriptUpdateMonitor fails.
+			console.error('GMapsPOI:', ex);
+		}
+	}
 
     GM_addStyle(`
         #poiPhotoDownloaderPanel { /* Main control panel (top-right) */
@@ -388,21 +415,5 @@
     try { if (typeof GM_info !== 'undefined' && GM_info.script) gmInfoVersion = GM_info.script.version; }
     catch (e) { console.warn(`${SCRIPT_PREFIX} Could not retrieve GM_info.script.version.`); }
     console.log(`Google Maps POI Photo Downloader script loaded (v${gmInfoVersion}).`);
-
-    function sandboxBootstrap() {
-        if (WazeWrap?.Ready) {
-            bootstrap({
-                scriptUpdateMonitor: {downloadUrl}
-            });
-            WazeWrap.Interface.ShowScriptUpdate(scriptName, scriptVersion, updateMessage);
-        } else {
-            setTimeout(sandboxBootstrap, 250);
-        }
-    }
-	
-    // Start the "sandboxed" code.
-    sandboxBootstrap();
-	
-    console.log(`${scriptName} initialized.`); 
 
 })();
