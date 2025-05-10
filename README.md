@@ -1,13 +1,13 @@
 # <p align="center">WME Segment Shift Utility</p>
 
-Now, when "Disconnect Nodes" is checked, the entire selected segment should shift and become separated from its original nodes; when unchecked, the entire selected segment, including the junction nodes of its related segments, likewise shift. Please carefully try this version, particularly the disconnect capability, and let me know whether it is now operating as intended.
+Now its easier to download images from google maps poi.
 
 ## Instructions
 1) Install this script in Tampermonkey.
-2) Open the Waze Map Editor.
-3) Select segments.
-4) To shift segments and move connected nodes (normal behavior): Leave "Disconnect Nodes" unchecked.
-5) To shift segments and disconnect them: Check "Disconnect Nodes".
-6) Use the shift buttons.
+2) Open the Google Maps.
+3) Select POI.
+4) Click Scan and Show in Preview.
+5) Select and downoad.
 
-<p align="center"><a href="https://raw.githubusercontent.com/kid4rm90s/Segment-Shift-Utility/main/WME-Segment-Shift-Utility.user.js"><img src="https://i.ibb.co/JzHFKzj/button-install-here.png"></a></p>
+
+<p align="center"><a href="https://raw.githubusercontent.com/kid4rm90s/GMaps-POI-Photo-Downloader/main/GMaps-POI-Photo-Downloader.user.js"><img src="https://i.ibb.co/JzHFKzj/button-install-here.png"></a></p>
