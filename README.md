@@ -1,4 +1,4 @@
-# <p align="center">WME Segment Shift Utility</p>
+# <p align="center">GMaps POI Photo Downloader</p>
 
 Now its easier to download images from google maps poi.
 
