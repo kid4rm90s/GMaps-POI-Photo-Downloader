@@ -27,7 +27,7 @@
   const updateMessage = 'Added \'Support for WME Edit Profile Enhancement\'<br>Fixed<br>- Various other bugs.<br>';
   const scriptName = GM_info.script.name;
   const scriptVersion = GM_info.script.version;
-  const downloadUrl = 'https://greasyfork.org/scripts/529939-wme-dark-mode-kid4rm90s-fork/code/WME%20Dark%20Mode%20%28kid4rm90s%20fork%29.user.js';
+  const downloadUrl = 'https://raw.githubusercontent.com/kid4rm90s/GMaps-POI-Photo-Downloader/main/GMaps-POI-Photo-Downloader.user.js';
 
     GM_addStyle(`
         #poiPhotoDownloaderPanel { /* Main control panel (top-right) */
