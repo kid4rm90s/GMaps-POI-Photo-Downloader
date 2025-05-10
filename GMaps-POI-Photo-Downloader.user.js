@@ -13,6 +13,8 @@
 // @grant        GM_getValue
 // @require      https://greasyfork.org/scripts/24851-wazewrap/code/WazeWrap.js
 // @license      MIT
+// @downloadURL  https://raw.githubusercontent.com/kid4rm90s/GMaps-POI-Photo-Downloader/main/GMaps-POI-Photo-Downloader.user.js
+// @updateURL    https://raw.githubusercontent.com/kid4rm90s/GMaps-POI-Photo-Downloader/main/GMaps-POI-Photo-Downloader.user.js
 // ==/UserScript==
 
 (function() {
