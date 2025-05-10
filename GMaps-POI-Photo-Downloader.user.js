@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GMaps POI Photo Downloader
 // @namespace    http://tampermonkey.net/
-// @version      0.8.9
+// @version      0.9.0
 // @description  Scans for photos and lists them in a draggable preview panel with selection and download options.
 // @author       kid4rm90s
 // @match        https://www.google.com/maps/*
