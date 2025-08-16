@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         GMaps POI Photo Downloader
 // @namespace    http://tampermonkey.net/
-// @version      0.9.0
+// @version      0.9.1
 // @description  Scans for photos and lists them in a draggable preview panel with selection and download options.
 // @author       kid4rm90s
 // @match        https://www.google.com/maps/*
@@ -31,6 +31,13 @@
             border: 1px solid #ccc; padding: 10px; z-index: 99999;
             border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             font-family: Arial, sans-serif; font-size: 14px;
+            width: 200px; /* Fixed width to prevent stretching */
+        }
+        #poiPhotoDownloaderPanelHeader {
+            background-color: #4CAF50; color: white; padding: 5px 10px;
+            margin: -10px -10px 10px -10px; border-radius: 5px 5px 0 0;
+            cursor: move; font-weight: bold; text-align: center;
+            user-select: none; font-size: 12px;
         }
         #poiPhotoDownloaderPanel button {
             background-color: #4CAF50; color: white; border: none; padding: 8px 12px;
@@ -104,6 +111,12 @@
         if (document.getElementById('poiPhotoDownloaderPanel')) return;
         const panel = document.createElement('div');
         panel.id = 'poiPhotoDownloaderPanel';
+        
+        // Add a draggable header
+        const header = document.createElement('div');
+        header.id = 'poiPhotoDownloaderPanelHeader';
+        header.textContent = '📷 POI Photo Downloader';
+        
         const scanButton = document.createElement('button');
         scanButton.id = 'scanPhotosBtn';
         scanButton.textContent = 'Scan & Show in Preview'; // Updated text
@@ -116,10 +129,16 @@
         const statusMessage = document.createElement('div');
         statusMessage.id = 'statusMessage';
         statusMessage.textContent = 'Scan to populate preview panel.';
+        
+        panel.appendChild(header);
         panel.appendChild(scanButton);
         panel.appendChild(downloadSelectedButton);
         panel.appendChild(statusMessage);
         document.body.appendChild(panel);
+        
+        // Make the main panel draggable by its header
+        makeDraggable(panel, header);
+        
         console.log(`${SCRIPT_PREFIX} Main control panel created.`);
         createPreviewPanel(); // Create the draggable preview panel alongside
     }
@@ -184,12 +203,43 @@
         console.log(`${SCRIPT_PREFIX} Draggable preview panel CREATED. Initial display: ${window.getComputedStyle(previewPanelElement).display}`);
     }
 
-    function makeDraggable(panel, handle) { /* ... same as before ... */
+    function makeDraggable(panel, handle) {
         let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+        
         handle.onmousedown = dragMouseDown;
-        function dragMouseDown(e) { e = e || window.event; e.preventDefault(); pos3 = e.clientX; pos4 = e.clientY; document.onmouseup = closeDragElement; document.onmousemove = elementDrag; }
-        function elementDrag(e) { e = e || window.event; e.preventDefault(); pos1 = pos3 - e.clientX; pos2 = pos4 - e.clientY; pos3 = e.clientX; pos4 = e.clientY; panel.style.top = (panel.offsetTop - pos2) + "px"; panel.style.left = (panel.offsetLeft - pos1) + "px"; }
-        function closeDragElement() { document.onmouseup = null; document.onmousemove = null; }
+        
+        function dragMouseDown(e) {
+            e = e || window.event;
+            e.preventDefault();
+            
+            // Convert from right-based positioning to left-based positioning
+            if (panel.style.right && !panel.style.left) {
+                const rect = panel.getBoundingClientRect();
+                panel.style.left = rect.left + "px";
+                panel.style.right = "auto";
+            }
+            
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            document.onmouseup = closeDragElement;
+            document.onmousemove = elementDrag;
+        }
+        
+        function elementDrag(e) {
+            e = e || window.event;
+            e.preventDefault();
+            pos1 = pos3 - e.clientX;
+            pos2 = pos4 - e.clientY;
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            panel.style.top = (panel.offsetTop - pos2) + "px";
+            panel.style.left = (panel.offsetLeft - pos1) + "px";
+        }
+        
+        function closeDragElement() {
+            document.onmouseup = null;
+            document.onmousemove = null;
+        }
     }
 
     function addPhotoItemToPreview(photoId, photoBase, originalUrl) {
